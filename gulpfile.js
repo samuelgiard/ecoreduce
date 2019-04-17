@@ -6,6 +6,7 @@ var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
 var zip = require('gulp-zip');
+var rename = require('gulp-rename');
 
 // Image compression
 var imagemin = require('gulp-imagemin');
@@ -89,6 +90,15 @@ function compress() {
         .pipe(gulp.dest('publish'))
 }
 
+// rename the zip file
+function namefile() {
+    return gulp.src('publish/*.zip', { base: process.cwd()})
+        .pipe(rename({
+            basename: gulp.src('output/*.html').basename
+        }))
+        .pipe(gulp.dest('publish'));
+}
+
 exports.clean = clean;
 exports.images = images;
 exports.styles = styles;
@@ -97,7 +107,9 @@ exports.insertCSS = insertCSS;
 exports.compress = compress;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
-var build = gulp.series(clean, images, styles, insertCSS, minify);
+var build = gulp.series(clean, images, styles, insertCSS, minify, compress);
 var compress = gulp.parallel(compress);
 gulp.task('default', build);
 gulp.task('compress', compress);
+
+gulp.task('namefile', namefile);
