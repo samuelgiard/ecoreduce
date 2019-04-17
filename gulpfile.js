@@ -5,6 +5,7 @@ var fs = require('fs');
 var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
+var zip = require('gulp-zip');
 
 // Image compression
 var imagemin = require('gulp-imagemin');
@@ -81,12 +82,22 @@ function insertCSS() {
         .pipe(gulp.dest(paths.htmlfile.temporary_dest));
 }
 
+// zip the files
+function compress() {
+    return gulp.src('output/**/*')
+        .pipe(zip('ecoreduced.zip'))
+        .pipe(gulp.dest('publish'))
+}
+
 exports.clean = clean;
 exports.images = images;
 exports.styles = styles;
 exports.minify = minify;
 exports.insertCSS = insertCSS;
+exports.compress = compress;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify);
+var compress = gulp.parallel(compress);
 gulp.task('default', build);
+gulp.task('compress', compress);

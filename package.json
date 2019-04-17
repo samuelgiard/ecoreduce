@@ -13,6 +13,7 @@
     "gulp-imagemin": "^5.0.3",
     "gulp-purifycss": "^0.2.0",
     "gulp-template": "^5.0.0",
+    "gulp-zip": "^4.2.0",
     "html-minifier": "^4.0.0",
     "imagemin-jpeg-recompress": "^6.0.0",
     "imagemin-pngquant": "^7.0.0",
