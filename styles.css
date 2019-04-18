@@ -1,0 +1,217 @@
+body {
+    width:100%!important;
+    -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%;
+    margin:0;
+    padding:0;
+    color:#60472e;
+}
+#outlook a {
+    padding:0;
+    color:inherit;
+}
+.ExternalClass {
+    width:100%;
+    display:block!important;
+    line-height:100%;
+}
+.ExternalClass *, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height:100%;}
+.appleLinks, .appleLinksWhite {text-decoration:none!important;}
+img {
+    outline:none;
+    text-decoration:none;
+    -ms-interpolation-mode:bicubic;
+}
+a img {border:none;}
+table td {
+    border-collapse:collapse;
+    vertical-align:top;
+}
+table {
+    border-collapse:collapse;
+    mso-table-lspace:0pt;
+    mso-table-rspace:0pt;
+}
+a {
+    color:inherit;
+    text-decoration:none;
+}
+sup {vertical-align:top;}
+@font-face {
+    font-family: 'open_sanslight';
+    font-style: normal;
+    font-weight: 300;
+    src: url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff'), url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'open_sansregular';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'open_sanssemibold';
+    font-style: normal;
+    font-weight: 600;
+    src: url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+}
+@font-face {
+    font-family: 'open_sansbold';
+    font-style: normal;
+    font-weight: 700;
+    src: url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+}
+*:not(#outlook).osl {font-family:'open_sanslight',Arial,sans-serif!important}
+*:not(#outlook).os {font-family:'open_sansregular',Arial,sans-serif!important}
+*:not(#outlook).ossb {font-family:'open_sanssemibold',Arial,sans-serif!important}
+*:not(#outlook).osb {font-family:'open_sansbold',Arial,sans-serif!important}
+.bd {display:none!important;}
+.mo {
+    max-height:0px;
+    font-size:0;
+    display:none;
+    mso-hide:all;
+    overflow:hidden;
+}
+@media only screen and (min-width: 640px), (min-device-width: 640px) {
+    .pl20d {padding-left:20px!important;}
+}
+@media only screen and (max-width: 640px), (max-device-width: 640px) {
+    body {width:auto!important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
+    .b {display:none!important;}
+    .v {display:block!important;}
+    .mo {
+        height:auto!important;
+        max-height:none!important;
+        font-size:14px!important;
+        display:block!important;
+        mso-hide:none!important;
+        overflow:visible!important;
+    }
+    .wa {width:auto!important;}
+    .w49 {width:49px!important;}
+    .w58 {width:58px!important;}
+    .w68 {width:68px!important;}
+    .w100 {width:100px!important;}
+    .w280 {width:280px!important;}
+    .w240 {width:240px!important;}
+    .w284 {width:284px!important;}
+    .w33p {width:33.33%!important;}
+    .w50p {width:50%!important;}
+    .w63p {width:63%!important;}
+    .w70p {width:70%!important;}
+    .w75p {width:75%!important;}
+    .w80p {width:80%!important;}
+    .w87p {width:87.5%!important;}
+    .w93p {width:93.75%!important;}
+    .w100p {width:100%!important;}
+    .ha {height:auto!important;}
+    .h20 {height:20px!important;}
+    .h24 {height:24px!important;}
+    .h35 {height:35px!important;}
+    .h40 {height:40px!important;}
+    .h42 {height:42px!important;}
+    .h50 {height:50px!important;line-height:50px!important;}
+    .h135 {height:135px!important;}
+    .h100p {height:100%!important;}
+    .fs12 {font-size:12px!important;}
+    .fs14 {font-size:14px!important;}
+    .fs16 {font-size:16px!important;}
+    .fs18 {font-size:18px!important;}
+    .fs20 {font-size:20px!important;}
+    .fs22 {font-size:22px!important;}
+    .fs24 {font-size:24px!important;}
+    .fs26 {font-size:26px!important;}
+    .fs28 {font-size:28px!important;}
+    .fs30 {font-size:30px!important;}
+    .fs32 {font-size:32px!important;}
+    .fs34 {font-size:34px!important;}
+    .fs36 {font-size:36px!important;}
+    .fs38 {font-size:38px!important;}
+    .fs40 {font-size:40px!important;}
+    .fs50 {font-size:50px!important;}
+    .fs60 {font-size:60px!important;}
+    .fs70 {font-size:70px!important;}
+    .fs80 {font-size:80px!important;}
+    .fs90 {font-size:90px!important;}
+    .fs100 {font-size:100px!important;}
+    .fw100 {font-weight:100!important;}
+    .fw200 {font-weight:200!important;}
+    .fw300 {font-weight:300!important;}
+    .fw400 {font-weight:400!important;}
+    .fw500 {font-weight:500!important;}
+    .fw600 {font-weight:600!important;}
+    .p0 {padding:0!important;}
+    .pt0 {padding-top:0px!important;}
+    .pt5 {padding-top:5px!important;}
+    .pt10 {padding-top:10px!important;}
+    .pt13 {padding-top:13px!important;}
+    .pt15 {padding-top:15px!important;}
+    .pt20 {padding-top:20px!important;}
+    .pt25 {padding-top:25px!important;}
+    .pt30 {padding-top:30px!important;}
+    .pt35 {padding-top:35px!important;}
+    .pt40 {padding-top:40px!important;}
+    .pt45 {padding-top:45px!important;}
+    .pt50 {padding-top:50px!important;}
+    .pt55 {padding-top:55px!important;}
+    .pt60 {padding-top:60px!important;}
+    .pt6p {padding-top:6.25%!important;}
+    .pt76p {padding-top:76%!important;}
+    .pr0 {padding-right:0!important;}
+    .pr5 {padding-right:5px!important;}
+    .pr10 {padding-right:10px!important;}
+    .pr20 {padding-right:20px!important;}
+    .pr6p {padding-right:6.25%!important;}
+    .pb0 {padding-bottom:0px!important;}
+    .pb5 {padding-bottom:5px!important;}
+    .pb10 {padding-bottom:10px!important;}
+    .pb20 {padding-bottom:20px!important;}
+    .pb30 {padding-bottom:30px!important;}
+    .pb40 {padding-bottom:40px!important;}
+    .pl0 {padding-left:0px!important;}
+    .pl5 {padding-left:5px!important;}
+    .pl10 {padding-left:10px!important;}
+    .pl20 {padding-left:20px!important;}
+    .pl25 {padding-left:25px!important;}
+    .pl30 {padding-left:30px!important;}
+    .pl82 {padding-left:82px!important;}
+    .pl95 {padding-left:95px!important;}
+    .pl6p {padding-left:6.25%!important;}
+    .ma {margin:auto!important;}
+    .mt0 {margin-top:0px!important;}
+    .lsn {letter-spacing:normal!important;}
+    .tdn {text-decoration:none!important;}
+    .ttu {text-transform:uppercase!important;}
+    .lh16 {line-height:16px!important;}
+    .lh19 {line-height:19px!important;}
+    .lh22 {line-height:22px!important;}
+    .lh30 {line-height:30px!important;}
+    .lh27 {line-height:27px!important;}
+    .lh32 {line-height:32px!important;}
+    .lh36 {line-height:36px!important;}
+    .lh50 {line-height:50px!important;}
+    .lh100 {line-height:100px!important;}
+    .lhi {line-height:initial!important;}
+    .fno {float:none!important;}
+    .fr {float:right!important;}
+    .fl {float:left!important;}
+    .tac {text-align:center!important;}
+    .tar {text-align:right!important;}
+    .tal {text-align:left!important;}
+    .bt {border-top:solid 1px #efe9dd!important;}
+    .br {border-right:solid 1px #efe9dd!important;}
+    .bb {border-bottom:solid 1px #efe9dd!important;}
+    .bl {border-left:solid 1px #efe9dd!important;}
+    .bln {border-left:none!important;}
+    .nb {border:none!important;}
+    .bm {border:solid 1px #9d8a70!important;}
+    .bbm {border-bottom:solid 1px #9d8a70!important;}
+    .brmn {border-right:none!important;}
+}
+@media only screen and (max-width: 640px) and (min-width: 350px) {
+    .w284 {width:90%!important;}
+}
+@media only screen and (max-width: 310px), (max-device-width: 310px) {
+    .was {width:auto!important;}
+}

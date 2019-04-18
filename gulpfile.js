@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var htmlmin = require('gulp-html-minifier');
 var del = require('del');
+var path = require('path');
 var fs = require('fs');
 var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
@@ -15,20 +16,26 @@ var imageminJpegRecompress = require('imagemin-jpeg-recompress');
 
 // paths declaration
 var paths = {
-    htmlfile: {
+    htmlfiles: {
         src: 'input/**/*.html',
         dest: 'output',
         temporary_src: 'temporary/**/*.html',
         temporary_dest: 'temporary'
     },
-    imagefile: {
+    imagefiles: {
         src: 'input/**/*.{png,jpeg,jpg,svg,gif}',
         dest: 'output'
     },
     styles: {
-        src: 'input/**/*.css',
+        src: 'styles.css',
         dest: 'output',
         temporary_src: 'temporary/**/*.css',
+        temporary_dest: 'temporary'
+    },
+    zipfiles: {
+        src: 'output/**/*',
+        dest: 'publish',
+        temporary_src: 'temporary/*.zip',
         temporary_dest: 'temporary'
     }
 };
@@ -40,7 +47,7 @@ function clean() {
 
 // Images
 function images() {
-    return gulp.src(paths.imagefile.src)
+    return gulp.src(paths.imagefiles.src)
         .pipe(imagemin(
             [
                 imagemin.gifsicle(),
@@ -51,14 +58,14 @@ function images() {
                 imageminJpegRecompress()
             ]
         ))
-        .pipe(gulp.dest(paths.imagefile.dest))
+        .pipe(gulp.dest(paths.imagefiles.dest))
 }
 
 // Styles
 function styles() {
     return gulp.src(paths.styles.src)
         .pipe(purifycss(
-            [paths.htmlfile.src],
+            [paths.htmlfiles.src],
             {
                 info: true,
                 minify: false,
@@ -71,32 +78,42 @@ function styles() {
 
 // Minify HTML
 function minify() {
-    return gulp.src(paths.htmlfile.temporary_src)
+    return gulp.src(paths.htmlfiles.temporary_src)
         .pipe(htmlmin({collapseWhitespace: true, ignorePath: '/assets' }))
-        .pipe(gulp.dest(paths.htmlfile.dest))
+        .pipe(gulp.dest(paths.htmlfiles.dest))
 }
 
 // insert CSS in template
 function insertCSS() {
-    return gulp.src(paths.htmlfile.src)
+    return gulp.src(paths.htmlfiles.src)
         .pipe(template({styles: fs.readFileSync('temporary/styles.css')}))
-        .pipe(gulp.dest(paths.htmlfile.temporary_dest));
+        .pipe(gulp.dest(paths.htmlfiles.temporary_dest));
 }
 
 // zip the files
 function compress() {
-    return gulp.src('output/**/*')
+    return gulp.src(paths.zipfiles.src)
         .pipe(zip('ecoreduced.zip'))
-        .pipe(gulp.dest('publish'))
+        .pipe(gulp.dest(paths.zipfiles.temporary_dest))
 }
 
 // rename the zip file
-function namefile() {
-    return gulp.src('publish/*.zip', { base: process.cwd()})
+function renamezip() {
+    let files;
+    try {
+        files = fs.readdirSync('input');
+    } catch(err) {
+        // An error occurred
+        console.error(err);
+    }
+
+    return gulp.src(paths.zipfiles.temporary_src, { base: process.cwd()})
         .pipe(rename({
-            basename: gulp.src('output/*.html').basename
+            dirname: '.',
+            basename: files[1].split('.')[0],
+            extname: '.zip'
         }))
-        .pipe(gulp.dest('publish'));
+        .pipe(gulp.dest(paths.zipfiles.dest));
 }
 
 exports.clean = clean;
@@ -107,9 +124,9 @@ exports.insertCSS = insertCSS;
 exports.compress = compress;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
-var build = gulp.series(clean, images, styles, insertCSS, minify, compress);
+var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
 var compress = gulp.parallel(compress);
 gulp.task('default', build);
 gulp.task('compress', compress);
 
-gulp.task('namefile', namefile);
+gulp.task('renamezip', renamezip);
