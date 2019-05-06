@@ -126,7 +126,8 @@ exports.compress = compress;
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
 var compress = gulp.parallel(compress);
+var css = gulp.series(insertCSS);
 gulp.task('default', build);
 gulp.task('compress', compress);
-
+gulp.task('css', css);
 gulp.task('renamezip', renamezip);
