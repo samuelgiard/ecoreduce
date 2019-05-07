@@ -134,7 +134,7 @@ exports.compress = compress;
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
 var compress = gulp.parallel(compress);
-var vpm = gulp.series(insertCSS, minifywws, compress, renamezip);
+var vpm = gulp.series(clean, images, styles, insertCSS, minifywws, compress, renamezip);
 gulp.task('default', build);
 gulp.task('compress', compress);
 gulp.task('vpm', vpm);
