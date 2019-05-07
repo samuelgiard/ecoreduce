@@ -1,8 +1,9 @@
 var gulp = require('gulp');
-var htmlmin = require('gulp-html-minifier');
 var del = require('del');
 var path = require('path');
 var fs = require('fs');
+var htmlmin = require('gulp-html-minifier');
+var removeEmptyLines = require('gulp-remove-empty-lines');
 var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
@@ -83,6 +84,13 @@ function minify() {
         .pipe(gulp.dest(paths.htmlfiles.dest))
 }
 
+function minifywws() {
+    return gulp.src(paths.htmlfiles.temporary_src)
+        .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
+        .pipe(removeEmptyLines())
+        .pipe(gulp.dest(paths.htmlfiles.dest))
+}
+
 // insert CSS in template
 function insertCSS() {
     return gulp.src(paths.htmlfiles.src)
@@ -126,7 +134,7 @@ exports.compress = compress;
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
 var compress = gulp.parallel(compress);
-var css = gulp.series(insertCSS);
+var css = gulp.series(insertCSS, minifywws);
 gulp.task('default', build);
 gulp.task('compress', compress);
 gulp.task('css', css);
