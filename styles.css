@@ -6,15 +6,8 @@ body {
     padding:0;
     color:#60472e;
 }
-#outlook a {
-    padding:0;
-    color:inherit;
-}
-.ExternalClass {
-    width:100%;
-    display:block!important;
-    line-height:100%;
-}
+#outlook a {padding:0;color:inherit;}
+.ExternalClass {width:100%;display:block!important;line-height:100%;}
 .ExternalClass *, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height:100%;}
 .appleLinks, .appleLinksWhite {text-decoration:none!important;}
 img {
@@ -61,10 +54,10 @@ sup {vertical-align:top;}
     font-weight: 700;
     src: url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
 }
-*:not(#outlook).osl {font-family:'open_sanslight',Arial,sans-serif!important}
-*:not(#outlook).os {font-family:'open_sansregular',Arial,sans-serif!important}
-*:not(#outlook).ossb {font-family:'open_sanssemibold',Arial,sans-serif!important}
-*:not(#outlook).osb {font-family:'open_sansbold',Arial,sans-serif!important}
+*:not(#outlook).osl {font-family:'open_sanslight',Arial,sans-serif!important;}
+*:not(#outlook).os {font-family:'open_sansregular',Arial,sans-serif!important;}
+*:not(#outlook).ossb {font-family:'open_sanssemibold',Arial,sans-serif!important;}
+*:not(#outlook).osb {font-family:'open_sansbold',Arial,sans-serif!important;}
 .bd {display:none!important;}
 .mo {
     max-height:0px;

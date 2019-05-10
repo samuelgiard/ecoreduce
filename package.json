@@ -1,6 +1,6 @@
 {
   "name": "ecoreduce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "reducing the carbon impact of email",
   "main": "index.js",
   "dependencies": {

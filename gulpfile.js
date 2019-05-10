@@ -156,6 +156,7 @@ var build = gulp.series(clean, images, styles, insertCSS, minify, compress, rena
 var compress = gulp.parallel(compress);
 var vpm = gulp.series(clean, images, styles, insertCSS, minifywws, compress, renamezip);
 var vpi = gulp.series(clean, styles, noCSS, minify);
+
 gulp.task('default', vpm);
 gulp.task('vpi', vpi);
 gulp.task('compress', compress);
