@@ -8,6 +8,7 @@ var replace = require('gulp-replace');
 var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
+var purgecss = require('gulp-purgecss');
 var zip = require('gulp-zip');
 var rename = require('gulp-rename');
 
@@ -78,6 +79,15 @@ function styles() {
         .pipe(gulp.dest(paths.styles.temporary_dest));
 }
 
+function styles2() {
+    return gulp.src(paths.styles.src)
+        .pipe(purgecss({
+            content: ['input/**/*.html']
+        }))
+        .pipe(minifycss())
+        .pipe(gulp.dest(paths.styles.temporary_dest));
+}
+
 // Minify HTML
 function minify() {
     return gulp.src(paths.htmlfiles.temporary_src)
@@ -134,6 +144,7 @@ function renamezip() {
 exports.clean = clean;
 exports.images = images;
 exports.styles = styles;
+exports.style2 = styles2;
 exports.noCSS = noCSS;
 exports.minify = minify;
 exports.minifywws = minifywws;
@@ -150,3 +161,4 @@ gulp.task('vpi', vpi);
 gulp.task('compress', compress);
 gulp.task('build', build);
 gulp.task('renamezip', renamezip);
+gulp.task('styles2', styles2);
