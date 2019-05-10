@@ -14,6 +14,7 @@
     "gulp-purifycss": "^0.2.0",
     "gulp-remove-empty-lines": "^0.1.0",
     "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
     "gulp-template": "^5.0.0",
     "gulp-zip": "^4.2.0",
     "html-minifier": "^4.0.0",

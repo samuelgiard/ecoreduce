@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var htmlmin = require('gulp-html-minifier');
 var removeEmptyLines = require('gulp-remove-empty-lines');
+var replace = require('gulp-replace');
 var template = require('gulp-template');
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
@@ -81,6 +82,7 @@ function styles() {
 function minify() {
     return gulp.src(paths.htmlfiles.temporary_src)
         .pipe(htmlmin({collapseWhitespace: true, ignorePath: '/assets' }))
+        .pipe(replace('<br', ' <br'))
         .pipe(gulp.dest(paths.htmlfiles.dest))
 }
 
@@ -95,6 +97,11 @@ function minifywws() {
 function insertCSS() {
     return gulp.src(paths.htmlfiles.src)
         .pipe(template({styles: fs.readFileSync('temporary/styles.css')}))
+        .pipe(gulp.dest(paths.htmlfiles.temporary_dest));
+}
+
+function noCSS() {
+    return gulp.src(paths.htmlfiles.src)
         .pipe(gulp.dest(paths.htmlfiles.temporary_dest));
 }
 
@@ -127,7 +134,9 @@ function renamezip() {
 exports.clean = clean;
 exports.images = images;
 exports.styles = styles;
+exports.noCSS = noCSS;
 exports.minify = minify;
+exports.minifywws = minifywws;
 exports.insertCSS = insertCSS;
 exports.compress = compress;
 
@@ -135,7 +144,9 @@ exports.compress = compress;
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
 var compress = gulp.parallel(compress);
 var vpm = gulp.series(clean, images, styles, insertCSS, minifywws, compress, renamezip);
+var vpi = gulp.series(clean, styles, noCSS, minify);
 gulp.task('default', vpm);
+gulp.task('vpi', vpi);
 gulp.task('compress', compress);
 gulp.task('build', build);
 gulp.task('renamezip', renamezip);
