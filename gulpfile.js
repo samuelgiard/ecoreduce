@@ -125,7 +125,7 @@ function minCSS() {
         .pipe(gulp.dest(paths.cssfiles.dest));
 }
 
-function minifywws() {
+function minifyvpm() {
     return gulp.src(paths.htmlfiles.temp_src)
         .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
         .pipe(removeEmptyLines())
@@ -158,6 +158,11 @@ function compress() {
         .pipe(gulp.dest(paths.zipfiles.temp_dest))
 }
 
+// remove css from final zip
+function cleanzip() {
+    return del(['output/*.css']);
+}
+
 // rename the zip file
 function renamezip() {
     let files;
@@ -184,15 +189,17 @@ exports.csspurge = csspurge;
 exports.noCSS = noCSS;
 exports.cssconcat = cssconcat;
 exports.minify = minify;
-exports.minifywws = minifywws;
+exports.minifyvpm = minifyvpm;
 exports.insertCSS = insertCSS;
 exports.compress = compress;
+exports.cleanzip = cleanzip;
 exports.renamezip = renamezip;
 exports.resetvpi = resetvpi;
+exports.resetvpm = resetvpm;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
-var vpm = gulp.series(clean, resetvpm, images, csspurge, cssconcat, insertCSS, minify, compress, renamezip);
+var vpm = gulp.series(clean, resetvpm, images, csspurge, cssconcat, insertCSS, minifyvpm, cleanzip, compress, renamezip);
 var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minify);
 
 gulp.task('default', vpm);
