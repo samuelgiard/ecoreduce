@@ -1,18 +1,22 @@
+// PACKAGES
 var gulp = require('gulp');
+// File System
 var del = require('del');
 var path = require('path');
 var fs = require('fs');
+var zip = require('gulp-zip');
+var rename = require('gulp-rename');
+// HTML
 var htmlmin = require('gulp-html-minifier');
 var removeEmptyLines = require('gulp-remove-empty-lines');
 var replace = require('gulp-replace');
 var template = require('gulp-template');
+// CSS
 var minifycss = require('gulp-clean-css');
 var purifycss =  require('gulp-purifycss');
 var purgecss = require('gulp-purgecss');
-var zip = require('gulp-zip');
-var rename = require('gulp-rename');
-
-// Image compression
+var concatCss = require('gulp-concat-css');
+// Images
 var imagemin = require('gulp-imagemin');
 var imageminPngquant = require('imagemin-pngquant');
 var imageminJpegRecompress = require('imagemin-jpeg-recompress');
@@ -22,30 +26,40 @@ var paths = {
     htmlfiles: {
         src: 'input/**/*.html',
         dest: 'output',
-        temporary_src: 'temporary/**/*.html',
-        temporary_dest: 'temporary'
+        temp_src: 'temporary/**/*.html',
+        temp_dest: 'temporary'
     },
     imagefiles: {
         src: 'input/**/*.{png,jpeg,jpg,svg,gif}',
         dest: 'output'
     },
-    styles: {
+    cssfiles: {
         src: 'styles.css',
         dest: 'output',
-        temporary_src: 'temporary/**/*.css',
-        temporary_dest: 'temporary'
+        temp_src: 'temporary/**/*.css',
+        temp_dest: 'temporary'
     },
     zipfiles: {
         src: 'output/**/*',
         dest: 'publish',
-        temporary_src: 'temporary/*.zip',
-        temporary_dest: 'temporary'
+        temp_src: 'temporary/*.zip',
+        temp_dest: 'temporary'
     }
 };
 
 // Reset
 function clean() {
     return del(['output/**', 'temporary/**']);
+}
+
+function resetvpi() {
+    clean();
+    gulp.src(paths.htmlfiles.src)
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
+    gulp.src('fixedblocks.html')
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
+    return gulp.src('reset.css')
+        .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
 // Images
@@ -66,7 +80,7 @@ function images() {
 
 // Styles
 function styles() {
-    return gulp.src(paths.styles.src)
+    return gulp.src(paths.cssfiles.src)
         .pipe(purifycss(
             [paths.htmlfiles.src],
             {
@@ -76,28 +90,34 @@ function styles() {
                 whitelist: ['*xternal*', '*apple*', '*outlook*']
             }))
         .pipe(minifycss())
-        .pipe(gulp.dest(paths.styles.temporary_dest));
+        .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
-function styles2() {
-    return gulp.src(paths.styles.src)
+function csspurge() {
+    return gulp.src('styles.css')
         .pipe(purgecss({
-            content: ['input/**/*.html']
+            content: [paths.htmlfiles.src]
         }))
-        .pipe(minifycss())
-        .pipe(gulp.dest(paths.styles.temporary_dest));
+        .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
 // Minify HTML
 function minify() {
-    return gulp.src(paths.htmlfiles.temporary_src)
+    return gulp.src(paths.htmlfiles.temp_src)
         .pipe(htmlmin({collapseWhitespace: true, ignorePath: '/assets' }))
         .pipe(replace('<br', ' <br'))
-        .pipe(gulp.dest(paths.htmlfiles.dest))
+        .pipe(gulp.dest(paths.htmlfiles.dest));
+}
+
+// Minify CSS
+function minCSS() {
+    return gulp.src(paths.cssfiles.temp_src)
+        .pipe(minifycss())
+        .pipe(gulp.dest(paths.cssfiles.dest));
 }
 
 function minifywws() {
-    return gulp.src(paths.htmlfiles.temporary_src)
+    return gulp.src(paths.htmlfiles.temp_src)
         .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
         .pipe(removeEmptyLines())
         .pipe(gulp.dest(paths.htmlfiles.dest))
@@ -107,19 +127,26 @@ function minifywws() {
 function insertCSS() {
     return gulp.src(paths.htmlfiles.src)
         .pipe(template({styles: fs.readFileSync('temporary/styles.css')}))
-        .pipe(gulp.dest(paths.htmlfiles.temporary_dest));
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
 function noCSS() {
     return gulp.src(paths.htmlfiles.src)
-        .pipe(gulp.dest(paths.htmlfiles.temporary_dest));
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
+}
+
+function cssconcat() {
+    return gulp.src(paths.cssfiles.temp_src)
+        .pipe(concatCss('bundle.css'))
+        .pipe(minifycss())
+        .pipe(gulp.dest(paths.cssfiles.dest));
 }
 
 // zip the files
 function compress() {
     return gulp.src(paths.zipfiles.src)
         .pipe(zip('ecoreduced.zip'))
-        .pipe(gulp.dest(paths.zipfiles.temporary_dest))
+        .pipe(gulp.dest(paths.zipfiles.temp_dest))
 }
 
 // rename the zip file
@@ -132,7 +159,7 @@ function renamezip() {
         console.error(err);
     }
 
-    return gulp.src(paths.zipfiles.temporary_src, { base: process.cwd()})
+    return gulp.src(paths.zipfiles.temp_src, { base: process.cwd()})
         .pipe(rename({
             dirname: '.',
             basename: files[1].split('.')[0],
@@ -144,22 +171,25 @@ function renamezip() {
 exports.clean = clean;
 exports.images = images;
 exports.styles = styles;
-exports.style2 = styles2;
+exports.csspurge = csspurge;
 exports.noCSS = noCSS;
+exports.cssconcat = cssconcat;
 exports.minify = minify;
 exports.minifywws = minifywws;
 exports.insertCSS = insertCSS;
 exports.compress = compress;
+exports.renamezip = renamezip;
+exports.resetvpi = resetvpi;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
-var compress = gulp.parallel(compress);
 var vpm = gulp.series(clean, images, styles, insertCSS, minifywws, compress, renamezip);
-var vpi = gulp.series(clean, styles, noCSS, minify);
+var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minify);
 
 gulp.task('default', vpm);
+gulp.task('vpm', vpm);
 gulp.task('vpi', vpi);
 gulp.task('compress', compress);
 gulp.task('build', build);
-gulp.task('renamezip', renamezip);
-gulp.task('styles2', styles2);
+// gulp.task('renamezip', renamezip);
+// gulp.task('csspurge', csspurge);

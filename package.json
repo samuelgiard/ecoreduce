@@ -9,6 +9,7 @@
   "devDependencies": {
     "del": "^4.1.0",
     "gulp-clean-css": "^4.0.0",
+    "gulp-concat-css": "^3.1.0",
     "gulp-html-minifier": "^0.1.8",
     "gulp-imagemin": "^5.0.3",
     "gulp-purgecss": "^1.2.0",
