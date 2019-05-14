@@ -96,7 +96,7 @@ function styles() {
 function csspurge() {
     return gulp.src('styles.css')
         .pipe(purgecss({
-            content: [paths.htmlfiles.src]
+            content: [paths.htmlfiles.temp_src]
         }))
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
@@ -104,7 +104,8 @@ function csspurge() {
 // Minify HTML
 function minify() {
     return gulp.src(paths.htmlfiles.temp_src)
-        .pipe(htmlmin({collapseWhitespace: true, ignorePath: '/assets' }))
+        .pipe(htmlmin({collapseWhitespace: true, removeComments: true, ignorePath: '/assets' }))
+        .pipe(removeEmptyLines())
         .pipe(replace('<br', ' <br'))
         .pipe(gulp.dest(paths.htmlfiles.dest));
 }
