@@ -1,4 +1,7 @@
-// PACKAGES
+/* ************* */
+/*   PACKAGES    */
+/* ************* */
+
 var gulp = require('gulp');
 // File System
 var del = require('del');
@@ -21,7 +24,10 @@ var imagemin = require('gulp-imagemin');
 var imageminPngquant = require('imagemin-pngquant');
 var imageminJpegRecompress = require('imagemin-jpeg-recompress');
 
-// paths declaration
+/* ************* */
+/*     PATHS     */
+/* ************* */
+
 var paths = {
     htmlfiles: {
         src: 'input/**/*.html',
@@ -47,7 +53,10 @@ var paths = {
     }
 };
 
-// Reset
+/* ************* */
+/*     RESET     */
+/* ************* */
+
 function clean() {
     return del(['output/**', 'temporary/**']);
 }
@@ -70,7 +79,10 @@ function resetvpm() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
-// Images
+/* ************* */
+/*    IMAGES     */
+/* ************* */
+
 function images() {
     return gulp.src(paths.imagefiles.src)
         .pipe(imagemin(
@@ -86,7 +98,10 @@ function images() {
         .pipe(gulp.dest(paths.imagefiles.dest))
 }
 
-// Styles
+/* ************* */
+/*     STYLE     */
+/* ************* */
+
 function styles() {
     return gulp.src(paths.cssfiles.src)
         .pipe(purifycss(
@@ -101,21 +116,13 @@ function styles() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
+// Purge CSS by selecting applied classes in HTML
 function csspurge() {
     return gulp.src('styles.css')
         .pipe(purgecss({
             content: [paths.htmlfiles.temp_src]
         }))
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
-}
-
-// Minify HTML
-function minify() {
-    return gulp.src(paths.htmlfiles.temp_src)
-        .pipe(htmlmin({collapseWhitespace: true, removeComments: true, ignorePath: '/assets' }))
-        .pipe(removeEmptyLines())
-        .pipe(replace('<br', ' <br'))
-        .pipe(gulp.dest(paths.htmlfiles.dest));
 }
 
 // Minify CSS
@@ -125,14 +132,7 @@ function minCSS() {
         .pipe(gulp.dest(paths.cssfiles.dest));
 }
 
-function minifyvpm() {
-    return gulp.src(paths.htmlfiles.temp_src)
-        .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
-        .pipe(removeEmptyLines())
-        .pipe(gulp.dest(paths.htmlfiles.dest))
-}
-
-// insert CSS in template
+// insert minified CSS in template
 function insertCSS() {
     return gulp.src(paths.htmlfiles.src)
         .pipe(template({styles: fs.readFileSync('output/bundle.css')}))
@@ -151,7 +151,29 @@ function cssconcat() {
         .pipe(gulp.dest(paths.cssfiles.dest));
 }
 
-// zip the files
+/* ************* */
+/*     HTML      */
+/* ************* */
+
+function minifyvpi() {
+    return gulp.src(paths.htmlfiles.temp_src)
+        .pipe(htmlmin({collapseWhitespace: true, removeComments: true, ignorePath: '/assets' }))
+        .pipe(removeEmptyLines())
+        .pipe(replace('<br', ' <br'))
+        .pipe(gulp.dest(paths.htmlfiles.dest));
+}
+
+function minifyvpm() {
+    return gulp.src(paths.htmlfiles.temp_src)
+        .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
+        .pipe(removeEmptyLines())
+        .pipe(gulp.dest(paths.htmlfiles.dest))
+}
+
+/* ************* */
+/*      ZIP      */
+/* ************* */
+
 function compress() {
     return gulp.src(paths.zipfiles.src)
         .pipe(zip('ecoreduced.zip'))
@@ -182,30 +204,34 @@ function renamezip() {
         .pipe(gulp.dest(paths.zipfiles.dest));
 }
 
+/* ************* */
+/*     TASKS     */
+/* ************* */
+
+// Reset
 exports.clean = clean;
+exports.resetvpi = resetvpi;
+exports.resetvpm = resetvpm;
+// Images
 exports.images = images;
+// Style
 exports.styles = styles;
 exports.csspurge = csspurge;
+exports.minCSS = minCSS;
+exports.insertCSS = insertCSS;
 exports.noCSS = noCSS;
 exports.cssconcat = cssconcat;
-exports.minify = minify;
+// HTML
+exports.minifyvpi = minifyvpi;
 exports.minifyvpm = minifyvpm;
-exports.insertCSS = insertCSS;
+// ZIP
 exports.compress = compress;
 exports.cleanzip = cleanzip;
 exports.renamezip = renamezip;
-exports.resetvpi = resetvpi;
-exports.resetvpm = resetvpm;
 
-// var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
-var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
-var vpm = gulp.series(clean, resetvpm, images, csspurge, cssconcat, insertCSS, minifyvpm, cleanzip, compress, renamezip);
-var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minify);
+var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, insertCSS, minifyvpm, cleanzip, compress, renamezip);
+var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minifyvpi);
 
-gulp.task('default', vpm);
+gulp.task('default', console.log("NOTICE: Use 'gulp vpm' for Cabestan and 'gulp vpi' for Neolane."));
 gulp.task('vpm', vpm);
 gulp.task('vpi', vpi);
-gulp.task('compress', compress);
-gulp.task('build', build);
-// gulp.task('renamezip', renamezip);
-// gulp.task('csspurge', csspurge);
