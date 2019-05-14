@@ -62,6 +62,14 @@ function resetvpi() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
+function resetvpm() {
+    clean();
+    gulp.src(paths.htmlfiles.src)
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
+    return gulp.src('reset.css')
+        .pipe(gulp.dest(paths.cssfiles.temp_dest));
+}
+
 // Images
 function images() {
     return gulp.src(paths.imagefiles.src)
@@ -127,7 +135,7 @@ function minifywws() {
 // insert CSS in template
 function insertCSS() {
     return gulp.src(paths.htmlfiles.src)
-        .pipe(template({styles: fs.readFileSync('temporary/styles.css')}))
+        .pipe(template({styles: fs.readFileSync('output/bundle.css')}))
         .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
@@ -184,7 +192,7 @@ exports.resetvpi = resetvpi;
 
 // var build = gulp.series(clean, gulp.parallel(images, styles, minify), insertCSS);
 var build = gulp.series(clean, images, styles, insertCSS, minify, compress, renamezip);
-var vpm = gulp.series(clean, images, styles, insertCSS, minifywws, compress, renamezip);
+var vpm = gulp.series(clean, resetvpm, images, csspurge, cssconcat, insertCSS, minify, compress, renamezip);
 var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minify);
 
 gulp.task('default', vpm);
