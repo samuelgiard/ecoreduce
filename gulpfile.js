@@ -16,7 +16,6 @@ var replace = require('gulp-replace');
 var template = require('gulp-template');
 // CSS
 var minifycss = require('gulp-clean-css');
-var purifycss =  require('gulp-purifycss');
 var purgecss = require('gulp-purgecss');
 var concatCss = require('gulp-concat-css');
 // Images
@@ -102,20 +101,6 @@ function images() {
 /*     STYLE     */
 /* ************* */
 
-function styles() {
-    return gulp.src(paths.cssfiles.src)
-        .pipe(purifycss(
-            [paths.htmlfiles.src],
-            {
-                info: true,
-                minify: false,
-                rejected: false,
-                whitelist: ['*xternal*', '*apple*', '*outlook*']
-            }))
-        .pipe(minifycss())
-        .pipe(gulp.dest(paths.cssfiles.temp_dest));
-}
-
 // Purge CSS by selecting applied classes in HTML
 function csspurge() {
     return gulp.src('styles.css')
@@ -125,25 +110,14 @@ function csspurge() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
-// Minify CSS
-function minCSS() {
-    return gulp.src(paths.cssfiles.temp_src)
-        .pipe(minifycss())
-        .pipe(gulp.dest(paths.cssfiles.dest));
-}
-
-// insert minified CSS in template
-function insertCSS() {
+// Insert minified CSS in template
+function cssinsert() {
     return gulp.src(paths.htmlfiles.src)
         .pipe(template({styles: fs.readFileSync('output/bundle.css')}))
         .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
-function noCSS() {
-    return gulp.src(paths.htmlfiles.src)
-        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
-}
-
+// Concat purged CSS with CSS reset directives
 function cssconcat() {
     return gulp.src(paths.cssfiles.temp_src)
         .pipe(concatCss('bundle.css'))
@@ -217,9 +191,8 @@ exports.images = images;
 // Style
 exports.styles = styles;
 exports.csspurge = csspurge;
-exports.minCSS = minCSS;
-exports.insertCSS = insertCSS;
-exports.noCSS = noCSS;
+exports.cssinsert = cssinsert;
+// exports.noCSS = noCSS;
 exports.cssconcat = cssconcat;
 // HTML
 exports.minifyvpi = minifyvpi;
@@ -229,7 +202,7 @@ exports.compress = compress;
 exports.cleanzip = cleanzip;
 exports.renamezip = renamezip;
 
-var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, insertCSS, minifyvpm, cleanzip, compress, renamezip);
+var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, cssinsert, minifyvpm, cleanzip, compress, renamezip);
 var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minifyvpi);
 
 gulp.task('default', console.log("NOTICE: Use 'gulp vpm' for Cabestan and 'gulp vpi' for Neolane."));

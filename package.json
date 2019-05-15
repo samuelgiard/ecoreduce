@@ -1,8 +1,12 @@
 {
   "name": "ecoreduce",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "reducing the carbon impact of email",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/samuelgiard/ecoreduce.git"
+  },
   "dependencies": {
     "gulp": "^4.0.0"
   },
@@ -13,7 +17,6 @@
     "gulp-html-minifier": "^0.1.8",
     "gulp-imagemin": "^5.0.3",
     "gulp-purgecss": "^1.2.0",
-    "gulp-purifycss": "^0.2.0",
     "gulp-remove-empty-lines": "^0.1.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
@@ -27,6 +30,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Samuel",
+  "author": "Samuel Giard",
   "license": "ISC"
 }
