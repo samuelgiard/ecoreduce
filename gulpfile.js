@@ -61,7 +61,6 @@ function clean() {
 }
 
 function resetvpi() {
-    clean();
     gulp.src(paths.htmlfiles.src)
         .pipe(gulp.dest(paths.htmlfiles.temp_dest));
     gulp.src('fixedblocks.html')
@@ -71,11 +70,11 @@ function resetvpi() {
 }
 
 function resetvpm() {
-    clean();
-    gulp.src(paths.htmlfiles.src)
-        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
-    return gulp.src('reset.css')
+    gulp.src('reset.css')
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
+    return gulp.src(paths.htmlfiles.src)
+        .pipe(replace('<link rel="stylesheet" type="text/css" href="https://images.yves-rocher.fr/FR/newsletter/styles.css">', '<style><%=styles%></style>'))
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
 async function showTasks() {
@@ -116,19 +115,19 @@ function csspurge() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
-// Insert minified CSS in template
-function cssinsert() {
-    return gulp.src(paths.htmlfiles.src)
-        .pipe(template({styles: fs.readFileSync('output/bundle.css')}))
-        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
-}
-
 // Concat purged CSS with CSS reset directives
 function cssconcat() {
     return gulp.src(paths.cssfiles.temp_src)
         .pipe(concatCss('bundle.css'))
         .pipe(minifycss())
         .pipe(gulp.dest(paths.cssfiles.dest));
+}
+
+// Insert minified CSS in VPM template
+function cssinsert() {
+    return gulp.src(paths.htmlfiles.temp_src)
+        .pipe(template({styles: fs.readFileSync('output/bundle.css')}))
+        .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
 /* ************* */
@@ -139,7 +138,10 @@ function minifyvpi() {
     return gulp.src(paths.htmlfiles.temp_src)
         .pipe(htmlmin({collapseWhitespace: true, removeComments: true, ignorePath: '/assets' }))
         .pipe(removeEmptyLines())
+        // Keep whitespace before BR tag
         .pipe(replace('<br', ' <br'))
+        // Insert minified CSS in vpi template
+        .pipe(replace('<link rel="stylesheet" type="text/css" href="https://images.yves-rocher.fr/FR/newsletter/styles.css">', '<style>'+fs.readFileSync('output/bundle.css')+'</style>'))
         .pipe(gulp.dest(paths.htmlfiles.dest));
 }
 
@@ -197,8 +199,8 @@ exports.showTasks = showTasks;
 exports.images = images;
 // Style
 exports.csspurge = csspurge;
-exports.cssinsert = cssinsert;
 exports.cssconcat = cssconcat;
+exports.cssinsert = cssinsert;
 // HTML
 exports.minifyvpi = minifyvpi;
 exports.minifyvpm = minifyvpm;
