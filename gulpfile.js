@@ -78,6 +78,12 @@ function resetvpm() {
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
 }
 
+async function showTasks() {
+    console.log("*****************************************************************");
+    console.log(" NOTICE: Use 'gulp vpm' for Cabestan and 'gulp vpi' for Neolane.");
+    console.log("*****************************************************************");
+}
+
 /* ************* */
 /*    IMAGES     */
 /* ************* */
@@ -186,10 +192,10 @@ function renamezip() {
 exports.clean = clean;
 exports.resetvpi = resetvpi;
 exports.resetvpm = resetvpm;
+exports.showTasks = showTasks;
 // Images
 exports.images = images;
 // Style
-exports.styles = styles;
 exports.csspurge = csspurge;
 exports.cssinsert = cssinsert;
 exports.cssconcat = cssconcat;
@@ -204,6 +210,6 @@ exports.renamezip = renamezip;
 var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, cssinsert, minifyvpm, cleanzip, compress, renamezip);
 var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minifyvpi);
 
-gulp.task('default', console.log("NOTICE: Use 'gulp vpm' for Cabestan and 'gulp vpi' for Neolane."));
+gulp.task('default', showTasks);
 gulp.task('vpm', vpm);
 gulp.task('vpi', vpi);
