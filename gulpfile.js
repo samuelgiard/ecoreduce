@@ -192,7 +192,6 @@ exports.images = images;
 exports.styles = styles;
 exports.csspurge = csspurge;
 exports.cssinsert = cssinsert;
-// exports.noCSS = noCSS;
 exports.cssconcat = cssconcat;
 // HTML
 exports.minifyvpi = minifyvpi;
