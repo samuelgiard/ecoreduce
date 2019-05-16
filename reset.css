@@ -1,71 +1,12 @@
-#outlook a {
-    padding: 0
-}
-span.MsoHyperlink {
-    mso-style-priority: 1;
-    color: inherit
-}
-span.MsoHyperlinkFollowed {
-    mso-style-priority: 1;
-    color: inherit
-}
 body {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    padding: 0;
-    color: #000000;
-    margin: 0 auto
+    width:100%!important;
+    -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%;
+    margin:0;
+    padding:0;
+    color:#60472e;
 }
-div[style*="margin: 16px 0"] {
-    margin: 0!important
-}
-.ExternalClass {
-    width: 100%;
-    display: block!important
-}
-.ExternalClass, .ExternalClass *, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-    line-height: 100%
-}
-img {
-    outline: none;
-    text-decoration: none;
-    -ms-interpolation-mode: bicubic
-}
-a img {
-    border: none
-}
-u + * img + div {
-    display: none
-}
-table td {
-    border-collapse: collapse;
-    mso-line-height-rule: exactly
-}
-table {
-    border-collapse: collapse;
-    mso-table-lspace: 0pt;
-    mso-table-rspace: 0pt
-}
-a {
-    color: inherit;
-    text-decoration: none;
-    mso-line-height-rule: exactly
-}
-.appleLinks, .appleLinksWhite {
-    text-decoration: none!important
-}
-a[x-apple-data-detectors] {
-    color: inherit!important;
-    text-decoration: none!important;
-    font-size: inherit!important;
-    font-family: inherit!important;
-    font-weight: inherit!important;
-    line-height: inherit!important
-}
-sup {
-    font-size: 0.8em;
-    vertical-align: text-top;
-    line-height: 1;
-    height: 0;
-    mso-text-raise: 24%
-}
+#outlook a {padding:0;color:inherit;}
+.ExternalClass {width:100%;display:block!important;line-height:100%;}
+.ExternalClass *, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height:100%;}
+.appleLinks, .appleLinksWhite {text-decoration:none!important;}
