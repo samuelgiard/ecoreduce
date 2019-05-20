@@ -73,7 +73,7 @@ function resetvpm() {
     gulp.src('reset.css')
         .pipe(gulp.dest(paths.cssfiles.temp_dest));
     return gulp.src(paths.htmlfiles.src)
-        .pipe(replace('<link rel="stylesheet" type="text/css" href="https://images.yves-rocher.fr/FR/newsletter/styles.css">', '<style><%=styles%></style>'))
+        .pipe(replace(/<link rel=\"stylesheet\" type=\"text\/css\" href=\".{44}styles.css\">/g, '<style><%=styles%></style>'))
         .pipe(gulp.dest(paths.htmlfiles.temp_dest));
 }
 
@@ -141,7 +141,7 @@ function minifyvpi() {
         // Keep whitespace before BR tag
         .pipe(replace('<br', ' <br'))
         // Insert minified CSS in vpi template
-        .pipe(replace('<link rel="stylesheet" type="text/css" href="https://images.yves-rocher.fr/FR/newsletter/styles.css">', '<style>'+fs.readFileSync('output/bundle.css')+'</style>'))
+        .pipe(replace(/<link rel=\"stylesheet\" type=\"text\/css\" href=\".{44}styles.css\">/g, '<style>'+fs.readFileSync('output/bundle.css')+'</style>'))
         .pipe(gulp.dest(paths.htmlfiles.dest));
 }
 
