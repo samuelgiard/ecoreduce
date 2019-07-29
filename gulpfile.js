@@ -147,7 +147,7 @@ function minifyvpi() {
 
 function minifyvpm() {
     return gulp.src(paths.htmlfiles.temp_src)
-        .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets' }))
+        .pipe(htmlmin({collapseWhitespace: false, removeComments: true, ignorePath: '/assets', ignoreCustomFragments: [/\{%[\s\S]*?%\}/] }))
         .pipe(removeEmptyLines())
         .pipe(gulp.dest(paths.htmlfiles.dest))
 }
