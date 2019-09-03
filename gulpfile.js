@@ -3,6 +3,7 @@
 /* ************* */
 
 var gulp = require('gulp');
+var child_process = require('child_process');
 // File System
 var del = require('del');
 var path = require('path');
@@ -153,6 +154,25 @@ function minifyvpm() {
 }
 
 /* ************* */
+/*   THUMBNAIL   */
+/* ************* */
+
+async function makeThumb() {
+    let files;
+    try {
+        files = fs.readdirSync('input');
+    } catch(err) {
+        // An error occurred
+        console.error(err);
+    }
+    var commande = 'phantomjs tasks/mt.js ' + files[1];
+    console.log(commande);
+    const { version } = child_process.exec(commande);
+    // const { version } = child_process.exec('phantomjs tasks/mt.js');
+    await Promise.resolve(version);
+}
+
+/* ************* */
 /*      ZIP      */
 /* ************* */
 
@@ -204,12 +224,14 @@ exports.cssinsert = cssinsert;
 // HTML
 exports.minifyvpi = minifyvpi;
 exports.minifyvpm = minifyvpm;
+// THUMBNAIL
+exports.makeThumb = makeThumb;
 // ZIP
 exports.compress = compress;
 exports.cleanzip = cleanzip;
 exports.renamezip = renamezip;
 
-var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, cssinsert, minifyvpm, cleanzip, compress, renamezip);
+var vpm = gulp.series(clean, resetvpm, gulp.parallel(images, csspurge), cssconcat, cssinsert, minifyvpm, cleanzip, compress, renamezip, makeThumb);
 var vpi = gulp.series(clean, resetvpi, csspurge, cssconcat, minifyvpi);
 
 gulp.task('default', showTasks);

@@ -8,10 +8,14 @@
     "url": "git://github.com/samuelgiard/ecoreduce.git"
   },
   "dependencies": {
-    "gulp": "^4.0.0"
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "devDependencies": {
     "del": "^4.1.0",
+    "eslint": "^5.16.0",
     "gulp-clean-css": "^4.0.0",
     "gulp-concat-css": "^3.1.0",
     "gulp-html-minifier": "^0.1.8",
