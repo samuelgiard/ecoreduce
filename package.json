@@ -10,7 +10,8 @@
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
-    "phantomjs": "^2.1.7"
+    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "devDependencies": {
     "del": "^4.1.0",
